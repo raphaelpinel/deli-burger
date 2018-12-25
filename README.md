@@ -1,3 +1,5 @@
+An App with React following a tutorial by Maximilian Schwarzmüller on Udemy
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
