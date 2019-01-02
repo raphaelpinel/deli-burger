@@ -16,10 +16,6 @@ const burger = props => {
   if (transformedIngredients.length === 0) {
     transformedIngredients = <p>Please start adding ingredients!</p>;
   }
-  if (transformedIngredients.length >= 8) {
-    let maxAlert = <p>You can only add 8 ingredients!</p>;
-    alert(maxAlert.props.children);
-  }
 
   return (
     <div className={classes.Burger}>

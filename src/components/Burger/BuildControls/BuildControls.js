@@ -21,7 +21,8 @@ const buildControls = props => (
         label={ctrl.label}
         added={() => props.ingredientAdded(ctrl.type)}
         removed={() => props.ingredientRemoved(ctrl.type)}
-        disabled={props.disabled[ctrl.type]}
+        lessButtonDisabled={props.lessButtonDisabled[ctrl.type]}
+        moreButtonDisabled={props.moreButtonDisabled}
         price={props.prices[ctrl.type].toFixed(2)}
       />
     ))}
