@@ -4,6 +4,7 @@ import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
+import axios from '../../axios-orders';
 
 const INGREDIENT_PRICES = {
   salad: 0.5,
@@ -82,14 +83,32 @@ class BurgerBuilder extends Component {
     this.setState({ purchasing: false });
   };
   purchaseContinueHandler = () => {
-    alert("let's continue!");
+    // alert("let's continue!");
+    const order = {
+      ingredients: this.state.ingredients,
+      price: this.state.totalPrice, // in a real App, should recalculate the price on the server
+      customer: {
+        name: 'Matti Heikkinen',
+        address: {
+          street: 'Hämeenkatu 111',
+          zipCode: '33180',
+          city: 'Tampere',
+          country: 'Finland'
+        },
+        email: 'test@test.com'
+      },
+      deliveryMethod: 'fastest'
+    };
+    axios
+      .post('/orders.json', order)
+      .then(response => console.log(response))
+      .catch(error => console.log(error));
   };
 
   render() {
     const disabledLessButtonInfo = {
       ...this.state.ingredients
     };
-    console.log(this.state.maximumNumberOfIngredientsReached);
 
     for (let key in disabledLessButtonInfo) {
       disabledLessButtonInfo[key] = disabledLessButtonInfo[key] <= 0;
