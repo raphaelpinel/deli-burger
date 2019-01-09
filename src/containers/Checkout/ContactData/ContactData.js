@@ -143,6 +143,7 @@ class ContactData extends Component {
       .post('/orders.json', order)
       .then(response => {
         this.setState({ loading: false });
+        alert('thank you for your order! It is being processed');
         this.props.history.push('/');
       })
       .catch(error => this.setState({ loading: false }));
