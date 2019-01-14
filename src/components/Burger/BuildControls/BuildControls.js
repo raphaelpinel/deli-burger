@@ -23,7 +23,7 @@ const buildControls = props => (
         removed={() => props.ingredientRemoved(ctrl.type)}
         lessButtonDisabled={props.lessButtonDisabled[ctrl.type]}
         moreButtonDisabled={props.moreButtonDisabled}
-        price={props.prices[ctrl.type].toFixed(2)}
+        // price={props.prices[ctrl.type].toFixed(2)}
       />
     ))}
     <button
