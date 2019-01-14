@@ -29,7 +29,7 @@ class BurgerBuilder extends Component {
   };
 
   componentDidMount() {
-    console.log(this.props);
+    //console.log(this.props);
 
     axios
       .get('https://deli-burger.firebaseio.com/ingredients.json')
