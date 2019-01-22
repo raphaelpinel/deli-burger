@@ -17,7 +17,6 @@ class BurgerBuilder extends Component {
     // totalPrice: 3.99,
     purchasable: false,
     purchasing: false,
-    maximumNumberOfIngredientsReached: false,
     loading: false,
     error: false
   };
@@ -33,8 +32,31 @@ class BurgerBuilder extends Component {
     //     this.setState({ error: true });
     //   });
   }
+  countNumberOfIngredients(ingredients) {
+    return Object.keys(ingredients)
+      .map(igKey => {
+        return ingredients[igKey];
+      })
+      .reduce((sum, el) => {
+        return sum + el;
+      }, 0);
+  }
 
-  checkForNumberofIngredients(ingredients) {}
+  limitNumberOfIngredients(ingredients) {
+    if (
+      this.countNumberOfIngredients(ingredients) >= MAX_NUMBER_OF_INGREDIENTS
+    ) {
+      alert(`You can only add ${MAX_NUMBER_OF_INGREDIENTS} ingredients!`);
+      console.log(
+        this.countNumberOfIngredients(ingredients) >= MAX_NUMBER_OF_INGREDIENTS
+      );
+
+      return (
+        this.countNumberOfIngredients(ingredients) >= MAX_NUMBER_OF_INGREDIENTS
+      );
+    }
+  }
+
   updatePurchaseState(ingredients) {
     const numberOfIngredientsAdded = Object.keys(ingredients)
       .map(igKey => {
@@ -43,15 +65,9 @@ class BurgerBuilder extends Component {
       .reduce((sum, el) => {
         return sum + el;
       }, 0);
-    this.setState({ purchasable: numberOfIngredientsAdded > 0 });
-    if (numberOfIngredientsAdded >= MAX_NUMBER_OF_INGREDIENTS) {
-      alert('You can only add 8 ingredients!');
-    }
-    this.setState({
-      maximumNumberOfIngredientsReached:
-        numberOfIngredientsAdded >= MAX_NUMBER_OF_INGREDIENTS
-    });
+    return numberOfIngredientsAdded > 0;
   }
+
   // addIngredientHandler = type => {
   //   const oldCount = this.state.ingredients[type];
   //   const updatedCount = oldCount + 1;
@@ -89,30 +105,32 @@ class BurgerBuilder extends Component {
     this.setState({ purchasing: false });
   };
   purchaseContinueHandler = () => {
-    const queryParams = [];
-    for (let i in this.state.ingredients) {
-      queryParams.push(
-        encodeURIComponent(i) +
-          '=' +
-          encodeURIComponent(this.state.ingredients[i])
-      );
-    }
-    queryParams.push('price=' + this.state.totalPrice);
-    const queryString = queryParams.join('&');
-    this.props.history.push({
-      pathname: '/checkout',
-      search: '?' + queryString
-    });
+    this.props.history.push('/checkout');
   };
 
   render() {
     const disabledLessButtonInfo = {
       ...this.props.ings
     };
-
     for (let key in disabledLessButtonInfo) {
       disabledLessButtonInfo[key] = disabledLessButtonInfo[key] <= 0;
     }
+
+    // const disabledMoreButtonInfo = {
+    //   ...this.props.ings
+    // };
+
+    // const totalIngredients = Object.values(disabledMoreButtonInfo).reduce(
+    //   (sum, el) => sum + el
+    // );
+    // for (let key in disabledMoreButtonInfo) {
+    //   disabledMoreButtonInfo[key] =
+    //     totalIngredients >= MAX_NUMBER_OF_INGREDIENTS;
+    // }
+    // console.log(disabledMoreButtonInfo);
+    const disabledMoreButtonInfo = this.limitNumberOfIngredients(
+      this.props.ings
+    );
 
     let orderSummary = null;
 
@@ -129,8 +147,8 @@ class BurgerBuilder extends Component {
             ingredientAdded={this.props.onIngredientAdded}
             ingredientRemoved={this.props.onIngredientRemoved}
             lessButtonDisabled={disabledLessButtonInfo}
-            moreButtonDisabled={this.state.maximumNumberOfIngredientsReached}
-            purchasable={this.state.purchasable}
+            moreButtonDisabled={disabledMoreButtonInfo}
+            purchasable={this.updatePurchaseState(this.props.ings)}
             ordered={this.purchaseHandler}
             price={this.props.price.toFixed(2)}
           />
