@@ -15,8 +15,6 @@ let maxIngredientsWarning = false;
 
 class BurgerBuilder extends Component {
   state = {
-    // totalPrice: 3.99,
-    purchasable: false,
     purchasing: false,
     loading: false,
     error: false
@@ -69,19 +67,6 @@ class BurgerBuilder extends Component {
     for (let key in disabledLessButtonInfo) {
       disabledLessButtonInfo[key] = disabledLessButtonInfo[key] <= 0;
     }
-
-    // const disabledMoreButtonInfo = {
-    //   ...this.props.ings
-    // };
-
-    // const totalIngredients = Object.values(disabledMoreButtonInfo).reduce(
-    //   (sum, el) => sum + el
-    // );
-    // for (let key in disabledMoreButtonInfo) {
-    //   disabledMoreButtonInfo[key] =
-    //     totalIngredients >= MAX_NUMBER_OF_INGREDIENTS;
-    // }
-    // console.log(disabledMoreButtonInfo);
     const disabledMoreButtonInfo = this.limitNumberOfIngredients(
       this.props.ings
     );
