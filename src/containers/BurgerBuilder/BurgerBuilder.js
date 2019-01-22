@@ -47,57 +47,14 @@ class BurgerBuilder extends Component {
       this.countNumberOfIngredients(ingredients) >= MAX_NUMBER_OF_INGREDIENTS
     ) {
       alert(`You can only add ${MAX_NUMBER_OF_INGREDIENTS} ingredients!`);
-      console.log(
-        this.countNumberOfIngredients(ingredients) >= MAX_NUMBER_OF_INGREDIENTS
-      );
-
       return (
         this.countNumberOfIngredients(ingredients) >= MAX_NUMBER_OF_INGREDIENTS
       );
     }
   }
-
   updatePurchaseState(ingredients) {
-    const numberOfIngredientsAdded = Object.keys(ingredients)
-      .map(igKey => {
-        return ingredients[igKey];
-      })
-      .reduce((sum, el) => {
-        return sum + el;
-      }, 0);
-    return numberOfIngredientsAdded > 0;
+    return this.countNumberOfIngredients(ingredients) > 0;
   }
-
-  // addIngredientHandler = type => {
-  //   const oldCount = this.state.ingredients[type];
-  //   const updatedCount = oldCount + 1;
-  //   const updatedIngredients = {
-  //     ...this.state.ingredients
-  //   };
-  //   updatedIngredients[type] = updatedCount;
-  //   const priceAddition = INGREDIENT_PRICES[type];
-  //   const oldPrice = this.state.totalPrice;
-  //   const newPrice = oldPrice + priceAddition;
-  //   this.setState({ ingredients: updatedIngredients, totalPrice: newPrice });
-  //   this.updatePurchaseState(updatedIngredients);
-  // };
-  // removeIngredientHandler = type => {
-  //   const oldCount = this.state.ingredients[type];
-  //   if (oldCount <= 0) {
-  //     return;
-  //   }
-  //   const updatedCount = oldCount - 1;
-  //   const updatedIngredients = {
-  //     ...this.state.ingredients
-  //   };
-  //   updatedIngredients[type] = updatedCount;
-  //   const priceDeduction = INGREDIENT_PRICES[type];
-  //   const oldPrice = this.state.totalPrice;
-  //   const newPrice = oldPrice - priceDeduction;
-  //   this.setState({ ingredients: updatedIngredients, totalPrice: newPrice });
-  //   this.updatePurchaseState(updatedIngredients);
-  // };
-
   purchaseHandler = () => {
     this.setState({ purchasing: true });
   };
