@@ -11,6 +11,7 @@ import axios from '../../axios-orders';
 import * as actionTypes from '../../store/actions';
 
 const MAX_NUMBER_OF_INGREDIENTS = 8;
+let maxIngredientsWarning = false;
 
 class BurgerBuilder extends Component {
   state = {
@@ -43,14 +44,10 @@ class BurgerBuilder extends Component {
   }
 
   limitNumberOfIngredients(ingredients) {
-    if (
-      this.countNumberOfIngredients(ingredients) >= MAX_NUMBER_OF_INGREDIENTS
-    ) {
-      alert(`You can only add ${MAX_NUMBER_OF_INGREDIENTS} ingredients!`);
-      return (
-        this.countNumberOfIngredients(ingredients) >= MAX_NUMBER_OF_INGREDIENTS
-      );
-    }
+    let reachedLimit =
+      this.countNumberOfIngredients(ingredients) >= MAX_NUMBER_OF_INGREDIENTS;
+    maxIngredientsWarning = reachedLimit;
+    return reachedLimit;
   }
   updatePurchaseState(ingredients) {
     return this.countNumberOfIngredients(ingredients) > 0;
@@ -108,6 +105,7 @@ class BurgerBuilder extends Component {
             purchasable={this.updatePurchaseState(this.props.ings)}
             ordered={this.purchaseHandler}
             price={this.props.price.toFixed(2)}
+            warning={maxIngredientsWarning}
           />
         </>
       );

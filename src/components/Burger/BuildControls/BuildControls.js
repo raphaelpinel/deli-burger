@@ -15,6 +15,11 @@ const buildControls = props => (
     <p>
       Current Price: <strong>{props.price} €</strong>
     </p>
+    {props.warning ? (
+      <p className={classes.warning}>
+        You have added the maximum amount of ingredients
+      </p>
+    ) : null}
     {controls.map(ctrl => (
       <BuildControl
         key={ctrl.label}
